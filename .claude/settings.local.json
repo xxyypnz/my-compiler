@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"C:\\\\2026-06-01\\\\compile\")",
+      "Bash(flex --version)",
+      "Bash(bison --version)",
+      "Bash(gcc --version)",
+      "Bash(make --version)",
+      "Read(//usr/bin/**)",
+      "Read(//mingw64/bin/**)",
+      "Read(//c/msys64/usr/**)",
+      "Bash(make *)"
+    ]
+  }
+}
