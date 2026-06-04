@@ -1,0 +1,58 @@
+// test2.l26 — set operations: add, remove, in, union, inter, isempty, write
+// Expected output:
+//   {1, 2, 3}
+//   1          (3 in s1)
+//   0          (5 in s1 -> false)
+//   {1, 2, 3, 4, 5}   (union)
+//   {3}               (inter)
+//   0          (isempty s1 -> false)
+//   1          (isempty empty -> true)
+{
+    set s1;
+    set s2;
+    set empty;
+    set u;
+    set inter_set;
+
+    s1 = {1, 2, 3};
+    s2 = {3, 4, 5};
+
+    write s1;
+
+    // membership
+    if (3 in s1) {
+        write 1;
+    } else {
+        write 0;
+    }
+
+    if (5 in s1) {
+        write 1;
+    } else {
+        write 0;
+    }
+
+    // add / remove
+    add s1 10;
+    remove s1 10;
+    remove s1 99;   // no-op: 99 not in s1
+
+    // union and inter
+    u = s1 union s2;
+    inter_set = s1 inter s2;
+    write u;
+    write inter_set;
+
+    // isempty
+    if (isempty(s1)) {
+        write 1;
+    } else {
+        write 0;
+    }
+
+    if (isempty(empty)) {
+        write 1;
+    } else {
+        write 0;
+    }
+}

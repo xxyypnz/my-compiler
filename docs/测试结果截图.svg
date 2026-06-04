@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="274" viewBox="0 0 1100 274">
+<rect width="1100" height="100%" fill="#f7f7f7"/>
+<rect x="36" y="32" width="1028" height="210" rx="8" fill="#ffffff" stroke="#222"/>
+<text x="64" y="76" font-family="monospace" font-size="28" font-weight="700" fill="#111">L26 Compiler Verification Screenshot</text>
+<text x="76" y="122" font-family="monospace" font-size="22" fill="#111">L26 Compiler Test Results</text>
+<text x="76" y="156" font-family="monospace" font-size="22" fill="#111">Build: PASS, no warnings</text>
+<text x="76" y="190" font-family="monospace" font-size="22" fill="#111">Positive tests: PASS (test1-test5)</text>
+<text x="76" y="224" font-family="monospace" font-size="22" fill="#111">Error tests: PASS (8 cases)</text>
+<text x="76" y="258" font-family="monospace" font-size="22" fill="#111">Single-step mode: PASS</text>
+<text x="76" y="292" font-family="monospace" font-size="22" fill="#111">Bonus: P-Code view, set equality, set comprehension</text>
+</svg>

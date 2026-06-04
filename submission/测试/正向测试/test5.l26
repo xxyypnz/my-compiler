@@ -1,0 +1,43 @@
+// test5.l26 — combined stress test
+// Tests: nested blocks, bool vars, logical ops, set ops, comprehension
+// Expected output:
+//   55          (sum 1..10)
+//   1           (bool logic)
+//   {2, 4, 6, 8, 10}  (even numbers from 1..10 via comprehension)
+//   {1, 3, 5, 7, 9}   (odd numbers = s_all inter s_odd_ref)
+{
+    int i;
+    int sum;
+    bool flag;
+    set s_all;
+    set s_even;
+    set s_odd_ref;
+    set s_odd;
+
+    // sum 1..10
+    i = 1;
+    sum = 0;
+    while (i <= 10) {
+        sum = sum + i;
+        add s_all i;
+        i = i + 1;
+    }
+    write sum;
+
+    // bool logic
+    flag = true;
+    if (flag && !(1 > 2)) {
+        write 1;
+    } else {
+        write 0;
+    }
+
+    // comprehension: even numbers
+    s_even = { x | x in s_all if x * 1 == x / 2 * 2 };
+    write s_even;
+
+    // odd via inter
+    s_odd_ref = {1, 3, 5, 7, 9};
+    s_odd = s_all inter s_odd_ref;
+    write s_odd;
+}
