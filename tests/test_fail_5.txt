@@ -1,0 +1,8 @@
+{
+    int x;
+    set s;
+    bool b;
+    x = 10;
+    s = {1, 2, 3};
+    b = isempty(x);
+}

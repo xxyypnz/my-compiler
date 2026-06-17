@@ -1,0 +1,33 @@
+{
+    int a;
+    int b;
+    int temp;
+
+    a = 48;
+    b = 18;
+
+    write a;
+    write b;
+
+    while (b != 0) {
+        temp = b;
+        b = a - (a / b) * b;
+        a = temp;
+    }
+
+    write a;
+
+    a = 1071;
+    b = 462;
+
+    write a;
+    write b;
+
+    while (b != 0) {
+        temp = b;
+        b = a - (a / b) * b;
+        a = temp;
+    }
+
+    write a;
+}

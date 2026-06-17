@@ -1,0 +1,13 @@
+{
+    int x;
+    set s;
+    bool b;
+    x = 5;
+    s = {1, 2, 3};
+    if(true)
+    {
+        int s;
+        s=10;
+        b = x in s;
+    }
+}

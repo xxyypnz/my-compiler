@@ -1,0 +1,41 @@
+{
+    int num;
+    int i;
+    int isPrime;
+
+    num = 29;
+    isPrime = 1;
+    i = 2;
+
+    while (i < num) {
+        if (num - (num / i) * i == 0) {
+            isPrime = 0;
+        }
+        i = i + 1;
+    }
+
+    if (isPrime == 1) {
+        write 1;
+    }
+    else {
+        write 0;
+    }
+
+    num = 25;
+    isPrime = 1;
+    i = 2;
+
+    while (i < num) {
+        if (num - (num / i) * i == 0) {
+            isPrime = 0;
+        }
+        i = i + 1;
+    }
+
+    if (isPrime == 1) {
+        write 1;
+    }
+    else {
+        write 0;
+    }
+}
