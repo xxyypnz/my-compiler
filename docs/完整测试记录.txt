@@ -1,0 +1,397 @@
+Script started on 2026-06-03 15:19:19+00:00 [COMMAND="make clean && make && make test-all" <not executed on terminal>]
+rm -f *.o lexer.c parser.tab.c parser.tab.h l26c
+gcc -Wall -Wno-unused-function -g -c symtab.c -o symtab.o
+gcc -Wall -Wno-unused-function -g -c codegen.c -o codegen.o
+gcc -Wall -Wno-unused-function -g -c pvm.c -o pvm.o
+gcc -Wall -Wno-unused-function -g -c main.c -o main.o
+bison -d -Wcounterexamples -o parser.tab.c parser.y
+flex -o lexer.c lexer.l
+gcc -Wall -Wno-unused-function -g -c lexer.c -o lexer.o
+gcc -Wall -Wno-unused-function -g -c parser.tab.c -o parser.o
+gcc -Wall -Wno-unused-function -g -o l26c symtab.o codegen.o pvm.o main.o lexer.o parser.o
+--- test1: arithmetic + control flow ---
+printf "5\n" | ./l26c tests/test1.l26
+
+=== Generated P-Code ===
+Addr   Op              L      A
+-------------------------------
+   0:  INT             0      3
+   1:  READ            0      0
+   2:  STO             0      0
+   3:  LIT             0      1
+   4:  STO             0      1
+   5:  LIT             0      1
+   6:  STO             0      2
+   7:  LOD             0      2
+   8:  LOD             0      0
+   9:  OPR             0     12  ; LEQ
+  10:  JPC             0     22
+  11:  INT             0      1
+  12:  LOD             1      1
+  13:  LOD             1      2
+  14:  OPR             0      4  ; MUL
+  15:  STO             1      1
+  16:  LOD             1      2
+  17:  LIT             0      1
+  18:  OPR             0      2  ; ADD
+  19:  STO             1      2
+  20:  INT             0     -1
+  21:  JMP             0      7
+  22:  LOD             0      1
+  23:  WRITE           0      0
+  24:  LOD             0      1
+  25:  LIT             0    100
+  26:  OPR             0     11  ; GT
+  27:  JPC             0     33
+  28:  INT             0      1
+  29:  LIT             0      1
+  30:  WRITE           0      0
+  31:  INT             0     -1
+  32:  JMP             0     37
+  33:  INT             0      1
+  34:  LIT             0      0
+  35:  WRITE           0      0
+  36:  INT             0     -1
+  37:  INT             0     -3
+  38:  OPR             0      0  ; RET
+================================
+
+=== Running ===
+120
+1
+=== Done ===
+--- test2: set operations ---
+./l26c tests/test2.l26
+
+=== Generated P-Code ===
+Addr   Op              L      A
+-------------------------------
+   0:  INT             0   1005
+   1:  SET_NEW         0      0
+   2:  SET_NEW         0    201
+   3:  SET_NEW         0    402
+   4:  SET_NEW         0    603
+   5:  SET_NEW         0    804
+   6:  LIT             0      1
+   7:  LIT             0      2
+   8:  LIT             0      3
+   9:  SET_LIT         0      3
+  10:  SET_COPY        0      0
+  11:  LIT             0      3
+  12:  LIT             0      4
+  13:  LIT             0      5
+  14:  SET_LIT         0      3
+  15:  SET_COPY        0    201
+  16:  WRITES          0      0
+  17:  LIT             0      3
+  18:  SET_IN          0      0
+  19:  JPC             0     25
+  20:  INT             0      1
+  21:  LIT             0      1
+  22:  WRITE           0      0
+  23:  INT             0     -1
+  24:  JMP             0     29
+  25:  INT             0      1
+  26:  LIT             0      0
+  27:  WRITE           0      0
+  28:  INT             0     -1
+  29:  LIT             0      5
+  30:  SET_IN          0      0
+  31:  JPC             0     37
+  32:  INT             0      1
+  33:  LIT             0      1
+  34:  WRITE           0      0
+  35:  INT             0     -1
+  36:  JMP             0     41
+  37:  INT             0      1
+  38:  LIT             0      0
+  39:  WRITE           0      0
+  40:  INT             0     -1
+  41:  LIT             0     10
+  42:  SET_ADD         0      0
+  43:  LIT             0     10
+  44:  SET_REM         0      0
+  45:  LIT             0     99
+  46:  SET_REM         0      0
+  47:  SET_UNION   ld1=0 off1=0  ld2=0 off2=201
+  48:  SET_COPY        0    603
+  49:  SET_INTER   ld1=0 off1=0  ld2=0 off2=201
+  50:  SET_COPY        0    804
+  51:  WRITES          0    603
+  52:  WRITES          0    804
+  53:  SET_EMPTY       0      0
+  54:  JPC             0     60
+  55:  INT             0      1
+  56:  LIT             0      1
+  57:  WRITE           0      0
+  58:  INT             0     -1
+  59:  JMP             0     64
+  60:  INT             0      1
+  61:  LIT             0      0
+  62:  WRITE           0      0
+  63:  INT             0     -1
+  64:  SET_EMPTY       0    402
+  65:  JPC             0     71
+  66:  INT             0      1
+  67:  LIT             0      1
+  68:  WRITE           0      0
+  69:  INT             0     -1
+  70:  JMP             0     75
+  71:  INT             0      1
+  72:  LIT             0      0
+  73:  WRITE           0      0
+  74:  INT             0     -1
+  75:  INT             0  -1005
+  76:  OPR             0      0  ; RET
+================================
+
+=== Running ===
+{1, 2, 3}
+1
+0
+{1, 2, 3, 4, 5}
+{3}
+0
+1
+=== Done ===
+--- test3: nested scopes ---
+./l26c tests/test3.l26
+
+=== Generated P-Code ===
+Addr   Op              L      A
+-------------------------------
+   0:  INT             0    202
+   1:  SET_NEW         0      1
+   2:  LIT             0     10
+   3:  STO             0      0
+   4:  LIT             0      1
+   5:  LIT             0      2
+   6:  SET_LIT         0      2
+   7:  SET_COPY        0      1
+   8:  INT             0    201
+   9:  SET_NEW         0      0
+  10:  LIT             0      5
+  11:  LIT             0      6
+  12:  SET_LIT         0      2
+  13:  SET_COPY        0      0
+  14:  LIT             0      7
+  15:  SET_ADD         0      0
+  16:  WRITES          0      0
+  17:  WRITES          1      1
+  18:  INT             0   -201
+  19:  LOD             0      0
+  20:  WRITE           0      0
+  21:  INT             0   -202
+  22:  OPR             0      0  ; RET
+================================
+
+=== Running ===
+{5, 6, 7}
+{1, 2}
+10
+=== Done ===
+--- test4: bonus features ---
+./l26c tests/test4.l26
+
+=== Generated P-Code ===
+Addr   Op              L      A
+-------------------------------
+   0:  INT             0    804
+   1:  SET_NEW         0      0
+   2:  SET_NEW         0    201
+   3:  SET_NEW         0    402
+   4:  SET_NEW         0    603
+   5:  LIT             0      1
+   6:  LIT             0      2
+   7:  LIT             0      3
+   8:  LIT             0      4
+   9:  LIT             0      5
+  10:  SET_LIT         0      5
+  11:  SET_COPY        0      0
+  12:  LIT             0      5
+  13:  LIT             0      4
+  14:  LIT             0      3
+  15:  LIT             0      2
+  16:  LIT             0      1
+  17:  SET_LIT         0      5
+  18:  SET_COPY        0    201
+  19:  LIT             0      1
+  20:  LIT             0      2
+  21:  LIT             0      3
+  22:  SET_LIT         0      3
+  23:  SET_COPY        0    402
+  24:  SET_EQL     ld1=0 off1=0  ld2=0 off2=201
+  25:  JPC             0     31
+  26:  INT             0      1
+  27:  LIT             0      1
+  28:  WRITE           0      0
+  29:  INT             0     -1
+  30:  JMP             0     35
+  31:  INT             0      1
+  32:  LIT             0      0
+  33:  WRITE           0      0
+  34:  INT             0     -1
+  35:  SET_EQL     ld1=0 off1=0  ld2=0 off2=402
+  36:  JPC             0     42
+  37:  INT             0      1
+  38:  LIT             0      1
+  39:  WRITE           0      0
+  40:  INT             0     -1
+  41:  JMP             0     46
+  42:  INT             0      1
+  43:  LIT             0      0
+  44:  WRITE           0      0
+  45:  INT             0     -1
+  46:  INT             0    203
+  47:  SET_NEW         0      0
+  48:  LIT             0      0
+  49:  STO             0    201
+  50:  LOD             0    201
+  51:  LOD             1      0
+  52:  OPR             0      9  ; LT
+  53:  JPC             0     70
+  54:  LOD             0    201
+  55:  SET_ELEM        1      0
+  56:  STO             0    202
+  57:  LOD             0    202
+  58:  LIT             0      2
+  59:  OPR             0     11  ; GT
+  60:  JPC             0     65
+  61:  LOD             0    202
+  62:  LIT             0      2
+  63:  OPR             0      4  ; MUL
+  64:  SET_ADD         0      0
+  65:  LOD             0    201
+  66:  LIT             0      1
+  67:  OPR             0      2  ; ADD
+  68:  STO             0    201
+  69:  JMP             0     50
+  70:  SET_UNION   ld1=0 off1=0  ld2=0 off2=0
+  71:  INT             0   -203
+  72:  SET_COPY        0    603
+  73:  WRITES          0    603
+  74:  INT             0   -804
+  75:  OPR             0      0  ; RET
+================================
+
+=== Running ===
+1
+0
+{6, 8, 10}
+=== Done ===
+--- test5: combined ---
+./l26c tests/test5.l26
+
+=== Generated P-Code ===
+Addr   Op              L      A
+-------------------------------
+   0:  INT             0    807
+   1:  SET_NEW         0      3
+   2:  SET_NEW         0    204
+   3:  SET_NEW         0    405
+   4:  SET_NEW         0    606
+   5:  LIT             0      1
+   6:  STO             0      0
+   7:  LIT             0      0
+   8:  STO             0      1
+   9:  LOD             0      0
+  10:  LIT             0     10
+  11:  OPR             0     12  ; LEQ
+  12:  JPC             0     26
+  13:  INT             0      1
+  14:  LOD             1      1
+  15:  LOD             1      0
+  16:  OPR             0      2  ; ADD
+  17:  STO             1      1
+  18:  LOD             1      0
+  19:  SET_ADD         1      3
+  20:  LOD             1      0
+  21:  LIT             0      1
+  22:  OPR             0      2  ; ADD
+  23:  STO             1      0
+  24:  INT             0     -1
+  25:  JMP             0      9
+  26:  LOD             0      1
+  27:  WRITE           0      0
+  28:  LIT             0      1
+  29:  STO             0      2
+  30:  LOD             0      2
+  31:  LIT             0      1
+  32:  LIT             0      2
+  33:  OPR             0     11  ; GT
+  34:  OPR             0     13  ; NOT
+  35:  OPR             0     14  ; AND
+  36:  JPC             0     42
+  37:  INT             0      1
+  38:  LIT             0      1
+  39:  WRITE           0      0
+  40:  INT             0     -1
+  41:  JMP             0     46
+  42:  INT             0      1
+  43:  LIT             0      0
+  44:  WRITE           0      0
+  45:  INT             0     -1
+  46:  INT             0    203
+  47:  SET_NEW         0      0
+  48:  LIT             0      0
+  49:  STO             0    201
+  50:  LOD             0    201
+  51:  LOD             1      3
+  52:  OPR             0      9  ; LT
+  53:  JPC             0     74
+  54:  LOD             0    201
+  55:  SET_ELEM        1      3
+  56:  STO             0    202
+  57:  LOD             0    202
+  58:  LIT             0      1
+  59:  OPR             0      4  ; MUL
+  60:  LOD             0    202
+  61:  LIT             0      2
+  62:  OPR             0      5  ; DIV
+  63:  LIT             0      2
+  64:  OPR             0      4  ; MUL
+  65:  OPR             0      7  ; EQ
+  66:  JPC             0     69
+  67:  LOD             0    202
+  68:  SET_ADD         0      0
+  69:  LOD             0    201
+  70:  LIT             0      1
+  71:  OPR             0      2  ; ADD
+  72:  STO             0    201
+  73:  JMP             0     50
+  74:  SET_UNION   ld1=0 off1=0  ld2=0 off2=0
+  75:  INT             0   -203
+  76:  SET_COPY        0    204
+  77:  WRITES          0    204
+  78:  LIT             0      1
+  79:  LIT             0      3
+  80:  LIT             0      5
+  81:  LIT             0      7
+  82:  LIT             0      9
+  83:  SET_LIT         0      5
+  84:  SET_COPY        0    405
+  85:  SET_INTER   ld1=0 off1=3  ld2=0 off2=405
+  86:  SET_COPY        0    606
+  87:  WRITES          0    606
+  88:  INT             0   -807
+  89:  OPR             0      0  ; RET
+================================
+
+=== Running ===
+55
+1
+{2, 4, 6, 8, 10}
+{1, 3, 5, 7, 9}
+=== Done ===
+./scripts/run_error_tests.sh
+PASS tests/errors/duplicate_decl.l26
+PASS tests/errors/undeclared_var.l26
+PASS tests/errors/type_mismatch_assign.l26
+PASS tests/errors/read_set.l26
+PASS tests/errors/add_non_set.l26
+PASS tests/errors/set_ne.l26
+PASS tests/errors/set_literal_eq.l26
+PASS tests/errors/division_by_zero.l26
+All error tests passed
+
+Script done on 2026-06-03 15:19:20+00:00 [COMMAND_EXIT_CODE="0"]

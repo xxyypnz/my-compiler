@@ -1,0 +1,59 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+2 0 obj
+<< /Length 857 >>
+stream
+BT
+/F1 10 Tf
+50 800 Td
+12 TL
+(L26 Compiler Design Report) Tj
+T*
+() Tj
+T*
+(Implementation: Flex lexer, Bison parser and semantic actions, P-Code generator, P-Code VM.) Tj
+T*
+(Supported types: int, bool, set. Set capacity: 200 unique integers.) Tj
+T*
+(Scope: nested block scope with shadowing and duplicate declaration checks.) Tj
+T*
+(Core features: assignment, arithmetic, relations, boolean logic, if/else, while, read/write.) Tj
+T*
+(Set features: literal, add, remove, in, isempty, union, inter, write set.) Tj
+T*
+(Bonus 1: P-Code listing and single-step execution.) Tj
+T*
+(Bonus 2: set equality for set variables.) Tj
+T*
+(Bonus 3: set comprehension syntax: { expr | x in S if condition }.) Tj
+T*
+(Tests: make test-all passes positive tests test1-test5 and 8 negative tests.) Tj
+T*
+(See design.md and test-results.md for the complete Chinese report.) Tj
+ET
+endstream
+endobj
+3 0 obj
+<< /Type /Page /Parent 4 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 1 0 R >> >> /Contents 2 0 R >>
+endobj
+4 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+5 0 obj
+<< /Type /Catalog /Pages 4 0 R >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000079 00000 n 
+0000000987 00000 n 
+0000001113 00000 n 
+0000001170 00000 n 
+trailer
+<< /Size 6 /Root 5 0 R >>
+startxref
+1219
+%%EOF

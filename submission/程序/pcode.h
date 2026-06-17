@@ -44,7 +44,7 @@ typedef struct {
  */
 #define ENCODE2(ld, off)       ((ld) * 10000 + (off))
 #define DECODE_LD(enc)         ((enc) / 10000)
-#define DECODE_OFF(enc)        ((enc) % 10000) // 06/04 Question
+#define DECODE_OFF(enc)        ((enc) % 10000)
 
 extern Instruction code[MAX_CODE];
 extern int         code_len;
