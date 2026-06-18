@@ -1,9 +1,0 @@
-{
-    set a;
-    set b;
-    a = {1};
-    b = {1};
-    if (a != b) {
-        write 1;
-    }
-}

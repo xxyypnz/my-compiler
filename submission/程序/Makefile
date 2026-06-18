@@ -1,6 +1,7 @@
 CC      = gcc
 CFLAGS  = -Wall -Wno-unused-function -g
 TARGET  = l26c
+TEST_DIR = ../测试
 
 SRCS    = symtab.c codegen.c pvm.c main.c
 OBJS    = $(SRCS:.c=.o) lexer.o parser.o
@@ -32,17 +33,17 @@ clean:
 
 test: all
 	@echo "--- test1: arithmetic + control flow ---"
-	printf "5\n" | ./$(TARGET) tests/test1.l26
+	printf "5\n" | ./$(TARGET) "$(TEST_DIR)/正向测试/test1.l26"
 	@echo "--- test2: set operations ---"
-	./$(TARGET) tests/test2.l26
+	./$(TARGET) "$(TEST_DIR)/正向测试/test2.l26"
 	@echo "--- test3: nested scopes ---"
-	./$(TARGET) tests/test3.l26
+	./$(TARGET) "$(TEST_DIR)/正向测试/test3.l26"
 	@echo "--- test4: bonus features ---"
-	./$(TARGET) tests/test4.l26
+	./$(TARGET) "$(TEST_DIR)/正向测试/test4.l26"
 	@echo "--- test5: combined ---"
-	./$(TARGET) tests/test5.l26
+	./$(TARGET) "$(TEST_DIR)/正向测试/test5.l26"
 
 test-errors: all
-	./scripts/run_error_tests.sh
+	TEST_DIR="$(TEST_DIR)/负向测试" ./scripts/run_error_tests.sh
 
 test-all: test test-errors

@@ -2,6 +2,7 @@
 set -eu
 
 failures=0
+TEST_DIR=${TEST_DIR:-tests/errors}
 
 run_case() {
     file="$1"
@@ -22,14 +23,14 @@ run_case() {
     rm -f "$log"
 }
 
-run_case tests/errors/duplicate_decl.l26 "duplicate declaration"
-run_case tests/errors/undeclared_var.l26 "undeclared variable"
-run_case tests/errors/type_mismatch_assign.l26 "type mismatch assigning"
-run_case tests/errors/read_set.l26 "read requires int variable"
-run_case tests/errors/add_non_set.l26 "'add' requires a set variable"
-run_case tests/errors/set_ne.l26 "'!=' is not supported for sets"
-run_case tests/errors/set_literal_eq.l26 "set equality requires set variables"
-run_case tests/errors/division_by_zero.l26 "division by zero"
+run_case "$TEST_DIR/duplicate_decl.l26" "duplicate declaration"
+run_case "$TEST_DIR/undeclared_var.l26" "undeclared variable"
+run_case "$TEST_DIR/type_mismatch_assign.l26" "type mismatch assigning"
+run_case "$TEST_DIR/read_set.l26" "read requires int variable"
+run_case "$TEST_DIR/add_non_set.l26" "'add' requires a set variable"
+run_case "$TEST_DIR/set_ne.l26" "'!=' is not supported for sets"
+run_case "$TEST_DIR/set_literal_eq.l26" "set equality requires set variables"
+run_case "$TEST_DIR/division_by_zero.l26" "division by zero"
 
 if [ "$failures" -ne 0 ]; then
     echo "$failures error test(s) failed"
